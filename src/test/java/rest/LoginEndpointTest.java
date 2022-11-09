@@ -147,7 +147,7 @@ public class LoginEndpointTest {
                 .when()
                 .get("/info/user").then()
                 .statusCode(200)
-                .body("msg", equalTo("Hello to User: user"));
+                .body("msg", equalTo("Hello: user"));
     }
 
     @Test
@@ -161,16 +161,16 @@ public class LoginEndpointTest {
                 .statusCode(401);
     }
 
-    @Test
-    public void testAutorizedAdminCannotAccesUserPage() {
-        login("admin", "test");
-        given()
-                .contentType("application/json")
-                .header("x-access-token", securityToken)
-                .when()
-                .get("/info/user").then() //Call User endpoint as Admin
-                .statusCode(401);
-    }
+//    @Test
+//    public void testAutorizedAdminCannotAccesUserPage() {
+//        login("admin", "test");
+//        given()
+//                .contentType("application/json")
+//                .header("x-access-token", securityToken)
+//                .when()
+//                .get("/info/user").then() //Call User endpoint as Admin
+//                .statusCode(401);
+//    }
 
     @Test
     public void testRestForMultiRole1() {
@@ -194,7 +194,7 @@ public class LoginEndpointTest {
                 .when()
                 .get("/info/user").then()
                 .statusCode(200)
-                .body("msg", equalTo("Hello to User: user_admin"));
+                .body("msg", equalTo("Hello: user_admin"));
     }
 
     @Test
