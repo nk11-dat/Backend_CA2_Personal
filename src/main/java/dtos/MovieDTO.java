@@ -1,6 +1,6 @@
 package dtos;
 
-import entities.Actor;
+import entities.Actors;
 import entities.Movie;
 
 import javax.validation.constraints.NotNull;
@@ -33,8 +33,8 @@ public class MovieDTO implements Serializable
         this.id = movie.getId();
         this.title = movie.getTitle();
         this.year = movie.getYear();
-        movie.getActors().forEach(actor -> {
-            this.actors.add(new ActorInnerDTO(actor));
+        movie.getActors().forEach(actors -> {
+            this.actors.add(new ActorInnerDTO(actors));
         });
     }
 
@@ -71,7 +71,7 @@ public class MovieDTO implements Serializable
     }
 
     /**
-     * A DTO for the {@link Actor} entity
+     * A DTO for the {@link Actors} entity
      */
     public static class ActorInnerDTO implements Serializable
     {
@@ -82,8 +82,8 @@ public class MovieDTO implements Serializable
             this.actorName = actorName;
         }
 
-        public ActorInnerDTO(Actor actor) {
-            this.actorName = actor.getActorName();
+        public ActorInnerDTO(Actors actors) {
+            this.actorName = actors.getActorName();
         }
 
         public String getActorName() {

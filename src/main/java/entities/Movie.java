@@ -4,7 +4,6 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
-import java.util.LinkedHashSet;
 import java.util.List;
 
 @Entity
@@ -18,12 +17,12 @@ public class Movie
 
     @Size(max = 255)
     @NotNull
-    @Column(name = "title", nullable = false)
-    private String title;
+    @Column(name = "Title", nullable = false)
+    private String Title;
 
     @NotNull
-    @Column(name = "year", nullable = false)
-    private Integer year;
+    @Column(name = "Year", nullable = false)
+    private Integer Year;
 
     @OneToMany(mappedBy = "movie")
     private List<UserRating> userRatings = new ArrayList<>();
@@ -31,21 +30,21 @@ public class Movie
     @ManyToMany
     @JoinTable(name = "movie_actors",
             joinColumns = @JoinColumn(name = "movie_id"),
-            inverseJoinColumns = @JoinColumn(name = "actors_actor"))
-    private List<Actor> actors = new ArrayList<>();
+            inverseJoinColumns = @JoinColumn(name = "actors_Actors"))
+    private List<Actors> Actors = new ArrayList<>();
 
     public Movie() {
     }
 
-    public Movie(String title, Integer year) {
-        this.title = title;
-        this.year = year;
+    public Movie(String Title, Integer Year) {
+        this.Title = Title;
+        this.Year = Year;
     }
 
-    public Movie(String title, Integer year, List<Actor> actors) {
-        this.title = title;
-        this.year = year;
-        this.actors = actors;
+    public Movie(String Title, Integer Year, List<Actors> Actors) {
+        this.Title = Title;
+        this.Year = Year;
+        this.Actors = Actors;
     }
 
     public Integer getId() {
@@ -57,19 +56,19 @@ public class Movie
     }
 
     public String getTitle() {
-        return title;
+        return Title;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setTitle(String Title) {
+        this.Title = Title;
     }
 
     public Integer getYear() {
-        return year;
+        return Year;
     }
 
-    public void setYear(Integer year) {
-        this.year = year;
+    public void setYear(Integer Year) {
+        this.Year = Year;
     }
 
     public List<UserRating> getUserRatings() {
@@ -80,12 +79,12 @@ public class Movie
         this.userRatings = userRatings;
     }
 
-    public List<Actor> getActors() {
-        return actors;
+    public List<Actors> getActors() {
+        return Actors;
     }
 
-    public void setActors(List<Actor> actors) {
-        this.actors = actors;
+    public void setActors(List<Actors> Actors) {
+        this.Actors = Actors;
     }
 
 }

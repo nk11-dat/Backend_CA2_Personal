@@ -1,16 +1,20 @@
 package facades;
 
-import entities.Actor;
+import entities.Actors;
 import entities.Movie;
 import dtos.MovieDTO;
+import utils.CallableHttpUtils;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 public class MovieFacade
 {
@@ -76,9 +80,9 @@ public class MovieFacade
     //        }
     //        return new PersonDTO(person);
     //    }
-    public void createMovie(MovieDTO movieDTO){
+    public MovieDTO createMovie(MovieDTO movieDTO){
         EntityManager em = getEntityManager();
-        List<Actor> actors = new ArrayList<>();
+        List<Actors> actors = new ArrayList<>();
 
         for (MovieDTO.ActorInnerDTO actor : movieDTO.getActors()) {
             actors.add(findOrCreateActor(actor.getActorName()));
@@ -86,40 +90,42 @@ public class MovieFacade
         //TODO: Check om filmen findes i forvejen!
         Movie result;
         try {
-            TypedQuery<Movie> query = em.createQuery("select m from Movie m where m.title = :title and m.year = :year and m.actors = :actors", Movie.class);
+            TypedQuery<Movie> query = em.createQuery("select m from Movie m where m.Title = :title and m.Year = :year and m.actors = :actors", Movie.class);
             query.setParameter("title", movieDTO.getTitle());
             query.setParameter("year", movieDTO.getYear());
             query.setParameter("actors", actors); //TODO: findActorsByMovie???
             result = query.getSingleResult();
-//            return result;
+            return new MovieDTO(result);
         } catch (NoResultException e) {
-            System.out.println("Weee shit don't work!...");
+            em.getTransaction().begin();
+//        em.persist(new Movie(1977, "Star Wars - A new hope", Arrays.asList(new Actors[]{new Actors("Mark Hamill"), "Harrison Ford", "Carrie Fisher"})));
+            Movie movie = new Movie(movieDTO.getTitle(), movieDTO.getYear(), actors);
+            em.persist(movie);
+            em.getTransaction().commit();
+//            System.out.println("Weee shit don't work!...");
+            return new MovieDTO(movie);
+        } finally {
+            em.close();
         }
-
-        em.getTransaction().begin();
-//        em.persist(new Movie(1977, "Star Wars - A new hope", Arrays.asList(new Actor[]{new Actor("Mark Hamill"), "Harrison Ford", "Carrie Fisher"})));
-        em.persist(new Movie(movieDTO.getTitle(), movieDTO.getYear(), actors));
-        em.getTransaction().commit();
-        em.close();
     }
 
-    private Actor findOrCreateActor(String actorName) {
+    private Actors findOrCreateActor(String actorName) {
         EntityManager em = getEntityManager();
-        Actor result;
+        Actors result;
         try {
-            TypedQuery<Actor> query = em.createQuery("select a from Actor a where a.actorName = :name", Actor.class);
+            TypedQuery<Actors> query = em.createQuery("select a from Actors a where a.actorName = :name", Actors.class);
             query.setParameter("name", actorName);
             result = query.getSingleResult();
             return result;
 
         } catch (NoResultException e) {
-            Actor actor = new Actor(actorName);
+            Actors actors = new Actors(actorName);
             em.getTransaction().begin();
-            em.persist(actor);
+            em.persist(actors);
             em.flush(); //Behandel JPA som et offenligt toilet
             em.getTransaction().commit();
             System.out.println("Stop dig selv... det virker... gider ikke mer'");
-            return actor;
+            return actors;
         } finally {
             em.close();
         }
@@ -133,5 +139,22 @@ public class MovieFacade
 //        em.persist(new Movie(1983, "Star Wars - Return of the jedi", Arrays.asList(new String[]{"Mark Hamill", "Harrison Ford", "Carrie Fisher", "Anthony Daniels"})));
         em.getTransaction().commit();
         em.close();
+    }
+
+    public List<String> parallelRun(List<String> urls) throws ExecutionException, InterruptedException
+    {
+        ExecutorService es = Executors.newCachedThreadPool();
+        List<Future<String>> futures = new ArrayList<>();
+        List<String> results = new ArrayList<>();
+
+        for (String url : urls) {
+            Future<String> temp = es.submit(new CallableHttpUtils(url));
+            futures.add(temp);
+        }
+        for (Future<String> f : futures) {
+            String temp = f.get();
+            results.add(temp);
+        }
+        return results;
     }
 }
