@@ -3,8 +3,9 @@ package entities;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
 import java.util.LinkedHashSet;
-import java.util.Set;
+import java.util.List;
 
 @Entity
 @Table(name = "movie")
@@ -25,13 +26,27 @@ public class Movie
     private Integer year;
 
     @OneToMany(mappedBy = "movie")
-    private Set<UserRating> userRatings = new LinkedHashSet<>();
+    private List<UserRating> userRatings = new ArrayList<>();
 
     @ManyToMany
     @JoinTable(name = "movie_actors",
             joinColumns = @JoinColumn(name = "movie_id"),
             inverseJoinColumns = @JoinColumn(name = "actors_actor"))
-    private Set<Actor> actors = new LinkedHashSet<>();
+    private List<Actor> actors = new ArrayList<>();
+
+    public Movie() {
+    }
+
+    public Movie(String title, Integer year) {
+        this.title = title;
+        this.year = year;
+    }
+
+    public Movie(String title, Integer year, List<Actor> actors) {
+        this.title = title;
+        this.year = year;
+        this.actors = actors;
+    }
 
     public Integer getId() {
         return id;
@@ -57,19 +72,19 @@ public class Movie
         this.year = year;
     }
 
-    public Set<UserRating> getUserRatings() {
+    public List<UserRating> getUserRatings() {
         return userRatings;
     }
 
-    public void setUserRatings(Set<UserRating> userRatings) {
+    public void setUserRatings(List<UserRating> userRatings) {
         this.userRatings = userRatings;
     }
 
-    public Set<Actor> getActors() {
+    public List<Actor> getActors() {
         return actors;
     }
 
-    public void setActors(Set<Actor> actors) {
+    public void setActors(List<Actor> actors) {
         this.actors = actors;
     }
 

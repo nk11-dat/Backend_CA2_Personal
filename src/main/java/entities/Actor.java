@@ -2,8 +2,9 @@ package entities;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
 import java.util.LinkedHashSet;
-import java.util.Set;
+import java.util.List;
 
 @Entity
 @Table(name = "actors")
@@ -19,7 +20,19 @@ public class Actor
     @JoinTable(name = "movie_actors",
             joinColumns = @JoinColumn(name = "actors_actor"),
             inverseJoinColumns = @JoinColumn(name = "movie_id"))
-    private Set<Movie> movies = new LinkedHashSet<>();
+    private List<Movie> movies = new ArrayList<>();
+
+    public Actor() {
+    }
+
+    public Actor(String actorName) {
+        this.actorName = actorName;
+    }
+
+    public Actor(String actorName, List<Movie> movies) {
+        this.actorName = actorName;
+        this.movies = movies;
+    }
 
     public String getActorName() {
         return actorName;
@@ -29,11 +42,11 @@ public class Actor
         this.actorName = actorName;
     }
 
-    public Set<Movie> getMovies() {
+    public List<Movie> getMovies() {
         return movies;
     }
 
-    public void setMovies(Set<Movie> movies) {
+    public void setMovies(List<Movie> movies) {
         this.movies = movies;
     }
 
