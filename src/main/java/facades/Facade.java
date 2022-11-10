@@ -2,7 +2,6 @@ package facades;
 
 import utils.CallableHttpUtils;
 
-import javax.persistence.EntityManagerFactory;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -10,10 +9,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
-public class JokeFacade
+public class Facade
 {
-
-
     public List<String> parallelRun(List<String> urls) throws ExecutionException, InterruptedException
     {
         ExecutorService es = Executors.newCachedThreadPool();

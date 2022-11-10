@@ -3,12 +3,12 @@ package dtos;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CombinedDTO
+public class CombinedJokeDTO
 {
    String id;
    List<String> joke = new ArrayList<>();
 
-    public CombinedDTO(DadDTO dad, ChuckDTO chuck)
+    public CombinedJokeDTO(DadDTO dad, ChuckDTO chuck)
     {
         this.id = dad.getId() + " " + chuck.getId();
         this.joke.add( dad.getJoke());
