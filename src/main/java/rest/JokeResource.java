@@ -5,7 +5,7 @@ import com.google.gson.GsonBuilder;
 import dtos.ChuckDTO;
 import dtos.CombinedJokeDTO;
 import dtos.DadDTO;
-import facades.Facade;
+import facades.MultiThreadFacade;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -16,7 +16,7 @@ import java.util.concurrent.ExecutionException;
 @Path("/joke")
 public class JokeResource
 {
-    Facade jf = new Facade();
+    MultiThreadFacade jf = new MultiThreadFacade();
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 
     @GET

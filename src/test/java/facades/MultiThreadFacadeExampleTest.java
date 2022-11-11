@@ -13,12 +13,13 @@ import org.junit.jupiter.api.Test;
 
 //Uncomment the line below, to temporarily disable this test
 //@Disabled
-public class FacadeExampleTest {
+public class MultiThreadFacadeExampleTest
+{
 
     private static EntityManagerFactory emf;
     private static FacadeExample facade;
 
-    public FacadeExampleTest() {
+    public MultiThreadFacadeExampleTest() {
     }
 
     @BeforeAll

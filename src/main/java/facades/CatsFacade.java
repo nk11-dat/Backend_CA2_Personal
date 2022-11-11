@@ -1,35 +1,33 @@
 package facades;
 
-import dtos.MovieDTO;
-import entities.Movie;
+import dtos.CatDTO;
+import entities.Cat;
 import utils.CallableHttpUtils;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
-public class MovieFacade
+public class CatsFacade
 {
-    private static MovieFacade instance;
+    private static CatsFacade instance;
     private static EntityManagerFactory emf;
 
     //Private Constructor to ensure Singleton
-    private MovieFacade() {}
+    private CatsFacade() {}
 
 
 
-    public static MovieFacade getInstance(EntityManagerFactory _emf) {
+    public static CatsFacade getInstance(EntityManagerFactory _emf) {
         if (instance == null) {
             emf = _emf;
-            instance = new MovieFacade();
+            instance = new CatsFacade();
         }
         return instance;
     }
@@ -38,12 +36,12 @@ public class MovieFacade
         return emf.createEntityManager();
     }
 
-    public List<MovieDTO> getAll(){
+    public List<CatDTO> getAll(){
         EntityManager em = getEntityManager();
         try{
-            TypedQuery<Movie> query = em.createQuery("select m from Movie m", Movie.class);
-            List<Movie> movies = query.getResultList();
-            return MovieDTO.getDTOs(movies);
+            TypedQuery<Cat> query = em.createQuery("select c from Cat c", Cat.class);
+            List<Cat> cats = query.getResultList();
+            return CatDTO.getDTOs(cats);
         }
         finally {
             em.close();
@@ -117,7 +115,7 @@ public class MovieFacade
     public void populate(){
         EntityManager em = getEntityManager();
         em.getTransaction().begin();
-        em.persist(new Movie("Star Wars - A new hope", 1977, "Mark Hamill, Harrison Ford, Carrie Fisher, Billy Dee Williams"));
+//        em.persist(new Movie("Star Wars - A new hope", 1977, "Mark Hamill, Harrison Ford, Carrie Fisher, Billy Dee Williams"));
 //        em.persist(new Movie(1980, "Star Wars - Empire strikes back", Arrays.asList(new String[]{"Mark Hamill", "Harrison Ford", "Carrie Fisher", "Billy Dee Williams"})));
 //        em.persist(new Movie(1983, "Star Wars - Return of the jedi", Arrays.asList(new String[]{"Mark Hamill", "Harrison Ford", "Carrie Fisher", "Anthony Daniels"})));
         em.getTransaction().commit();

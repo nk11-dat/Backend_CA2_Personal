@@ -16,7 +16,8 @@ import org.junit.jupiter.api.Test;
 
 //Uncomment the line below, to temporarily disable this test
 //@Disabled
-public class UserFacadeTest {
+public class UserMultiThreadFacadeTest
+{
 
     private static EntityManagerFactory emf;
     private static UserFacade facade;
@@ -24,7 +25,7 @@ public class UserFacadeTest {
     User user, admin, both;
     Role userRole, adminRole;
 
-    public UserFacadeTest() {
+    public UserMultiThreadFacadeTest() {
     }
 
     @BeforeAll
