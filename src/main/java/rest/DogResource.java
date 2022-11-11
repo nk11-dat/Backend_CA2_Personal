@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import dtos.*;
 import facades.CatsFacade;
+import facades.DogsFacade;
 import utils.EMF_Creator;
 
 import javax.persistence.EntityManagerFactory;
@@ -15,12 +16,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
-@Path("/cat")
-public class CatResource
+@Path("/dog")
+public class DogResource
 {
     private static final EntityManagerFactory EMF = EMF_Creator.createEntityManagerFactory();
 
-    private static final CatsFacade facade =  CatsFacade.getInstance(EMF);
+    private static final DogsFacade facade =  DogsFacade.getInstance(EMF);
 
 //    CatsFacade facade = new CatsFacade();
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
@@ -35,8 +36,8 @@ public class CatResource
     @Path("all")
     @Produces(MediaType.APPLICATION_JSON)
     public String allMovies() {
-        List<CatDTO> catDTOList = facade.getAll();
-        return GSON.toJson(catDTOList);
+        List<DogDTO> dogDTOList = facade.getAll();
+        return GSON.toJson(dogDTOList);
     }
 
     @Path("info")
