@@ -2,9 +2,6 @@ package rest;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import dtos.ChuckDTO;
-import dtos.CombinedJokeDTO;
-import dtos.DadDTO;
 import dtos.MovieDTO;
 import entities.Movie;
 import facades.MovieFacade;
@@ -57,19 +54,19 @@ public class MovieResource
         return "{\"Message\": \"DB populated with test data\"}";
     }
 
-    @POST
-    @Path("create")
-//    @Consumes({MediaType.APPLICATION_JSON})
-    @Produces({MediaType.APPLICATION_JSON})
-//    public String addPerson(String input){
-    public String addPerson() throws ExecutionException, InterruptedException {
-        List<String> URL = new ArrayList<>();
-        URL.add("https://www.omdbapi.com/?apikey=49f41d3d&t=Die+Hard");
-        List<String> jokeJSON = facade.parallelRun(URL);
-        MovieDTO movieDTO = GSON.fromJson(jokeJSON.get(0), MovieDTO.class);
-        MovieDTO newMovieDTO = facade.createMovie(movieDTO);
-        return GSON.toJson(newMovieDTO);
-    }
+//    @POST
+//    @Path("create")
+////    @Consumes({MediaType.APPLICATION_JSON})
+//    @Produces({MediaType.APPLICATION_JSON})
+////    public String addPerson(String input){
+//    public String addPerson() throws ExecutionException, InterruptedException {
+//        List<String> URL = new ArrayList<>();
+//        URL.add("https://www.omdbapi.com/?apikey=49f41d3d&t=Die+Hard");
+//        List<String> jokeJSON = facade.parallelRun(URL);
+//        MovieDTO movieDTO = GSON.fromJson(jokeJSON.get(0), MovieDTO.class);
+//        MovieDTO newMovieDTO = facade.createMovie(movieDTO);
+//        return GSON.toJson(newMovieDTO);
+//    }
 
     @Path("search")
     @GET

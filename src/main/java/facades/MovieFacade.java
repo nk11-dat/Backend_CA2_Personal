@@ -1,8 +1,7 @@
 package facades;
 
-import entities.Actors;
-import entities.Movie;
 import dtos.MovieDTO;
+import entities.Movie;
 import utils.CallableHttpUtils;
 
 import javax.persistence.EntityManager;
@@ -10,6 +9,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
@@ -63,78 +63,61 @@ public class MovieFacade
         }
     }
 
-    //public PersonDTO createPerson(PersonDTO personDTO)
-    //    {
-    //        Cityinfo ci = findCityInfo(new Cityinfo(personDTO.getAddress().getIdCITY().getCity(), personDTO.getAddress().getIdCITY().getZipcode()));
-    //        Address address = createAdress(new Address(personDTO.getAddress().getStreet(), personDTO.getAddress().getAditionalInfo(), ci));
-    //        Person person = new Person(address, personDTO.getFirstName(), personDTO.getLastName(), personDTO.getAge(), personDTO.getGender(), personDTO.getEmail());
-    //
-    //        EntityManager em = getEntityManager();
-    //        try {
-    //            em.getTransaction().begin();
-    //            em.merge(person);
-    //            em.flush(); //Behandel JPA som et offenligt toilet
-    //            em.getTransaction().commit();
-    //        } finally {
-    //            em.close();
-    //        }
-    //        return new PersonDTO(person);
-    //    }
-    public MovieDTO createMovie(MovieDTO movieDTO){
-        EntityManager em = getEntityManager();
-        List<Actors> actors = new ArrayList<>();
+//    public MovieDTO createMovie(MovieDTO movieDTO){
+//        EntityManager em = getEntityManager();
+//        List<Actors> actors = new ArrayList<>();
+//
+//        for (MovieDTO.ActorInnerDTO actor : movieDTO.getActors()) {
+//            actors.add(findOrCreateActor(actor.getActorName()));
+//        }
+//        //TODO: Check om filmen findes i forvejen!
+//        Movie result;
+//        try {
+//            TypedQuery<Movie> query = em.createQuery("select m from Movie m where m.Title = :title and m.Year = :year and m.actors = :actors", Movie.class);
+//            query.setParameter("title", movieDTO.getTitle());
+//            query.setParameter("year", movieDTO.getYear());
+//            query.setParameter("actors", actors); //TODO: findActorsByMovie???
+//            result = query.getSingleResult();
+//            return new MovieDTO(result);
+//        } catch (NoResultException e) {
+//            em.getTransaction().begin();
+////        em.persist(new Movie(1977, "Star Wars - A new hope", Arrays.asList(new Actors[]{new Actors("Mark Hamill"), "Harrison Ford", "Carrie Fisher"})));
+//            Movie movie = new Movie(movieDTO.getTitle(), movieDTO.getYear(), actors);
+//            em.persist(movie);
+//            em.getTransaction().commit();
+////            System.out.println("Weee shit don't work!...");
+//            return new MovieDTO(movie);
+//        } finally {
+//            em.close();
+//        }
+//    }
 
-        for (MovieDTO.ActorInnerDTO actor : movieDTO.getActors()) {
-            actors.add(findOrCreateActor(actor.getActorName()));
-        }
-        //TODO: Check om filmen findes i forvejen!
-        Movie result;
-        try {
-            TypedQuery<Movie> query = em.createQuery("select m from Movie m where m.Title = :title and m.Year = :year and m.actors = :actors", Movie.class);
-            query.setParameter("title", movieDTO.getTitle());
-            query.setParameter("year", movieDTO.getYear());
-            query.setParameter("actors", actors); //TODO: findActorsByMovie???
-            result = query.getSingleResult();
-            return new MovieDTO(result);
-        } catch (NoResultException e) {
-            em.getTransaction().begin();
-//        em.persist(new Movie(1977, "Star Wars - A new hope", Arrays.asList(new Actors[]{new Actors("Mark Hamill"), "Harrison Ford", "Carrie Fisher"})));
-            Movie movie = new Movie(movieDTO.getTitle(), movieDTO.getYear(), actors);
-            em.persist(movie);
-            em.getTransaction().commit();
-//            System.out.println("Weee shit don't work!...");
-            return new MovieDTO(movie);
-        } finally {
-            em.close();
-        }
-    }
-
-    private Actors findOrCreateActor(String actorName) {
-        EntityManager em = getEntityManager();
-        Actors result;
-        try {
-            TypedQuery<Actors> query = em.createQuery("select a from Actors a where a.actorName = :name", Actors.class);
-            query.setParameter("name", actorName);
-            result = query.getSingleResult();
-            return result;
-
-        } catch (NoResultException e) {
-            Actors actors = new Actors(actorName);
-            em.getTransaction().begin();
-            em.persist(actors);
-            em.flush(); //Behandel JPA som et offenligt toilet
-            em.getTransaction().commit();
-            System.out.println("Stop dig selv... det virker... gider ikke mer'");
-            return actors;
-        } finally {
-            em.close();
-        }
-    }
+//    private Actors findOrCreateActor(String actorNames) {
+//        EntityManager em = getEntityManager();
+//        Actors result;
+//        try {
+//            TypedQuery<Actors> query = em.createQuery("select a from Actors a where a.actors = :names", Actors.class);
+//            query.setParameter("names", actorNames);
+//            result = query.getSingleResult();
+//            return result;
+//
+//        } catch (NoResultException e) {
+//            Actors actors = new Actors(actorNames);
+//            em.getTransaction().begin();
+//            em.persist(actors);
+//            em.flush(); //Behandel JPA som et offenligt toilet
+//            em.getTransaction().commit();
+//            System.out.println("Stop dig selv... det virker... gider ikke mer'");
+//            return actors;
+//        } finally {
+//            em.close();
+//        }
+//    }
 
     public void populate(){
         EntityManager em = getEntityManager();
         em.getTransaction().begin();
-//        em.persist(new Movie(1977, "Star Wars - A new hope", Arrays.asList(new String[]{"Mark Hamill", "Harrison Ford", "Carrie Fisher"})));
+        em.persist(new Movie("Star Wars - A new hope", 1977, "Mark Hamill, Harrison Ford, Carrie Fisher, Billy Dee Williams"));
 //        em.persist(new Movie(1980, "Star Wars - Empire strikes back", Arrays.asList(new String[]{"Mark Hamill", "Harrison Ford", "Carrie Fisher", "Billy Dee Williams"})));
 //        em.persist(new Movie(1983, "Star Wars - Return of the jedi", Arrays.asList(new String[]{"Mark Hamill", "Harrison Ford", "Carrie Fisher", "Anthony Daniels"})));
         em.getTransaction().commit();

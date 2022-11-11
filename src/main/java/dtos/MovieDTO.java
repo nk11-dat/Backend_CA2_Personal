@@ -1,6 +1,5 @@
 package dtos;
 
-import entities.Actors;
 import entities.Movie;
 
 import javax.validation.constraints.NotNull;
@@ -20,7 +19,7 @@ public class MovieDTO implements Serializable
     private final String title;
     @NotNull
     private final Integer year;
-    private final List<ActorInnerDTO> actors = new ArrayList<>();
+    private final List<String> actors = new ArrayList<>();
 
     public MovieDTO(Integer id, String title, Integer year) { //List<ActorInnerDTO> actors
         this.id = id;
@@ -33,9 +32,9 @@ public class MovieDTO implements Serializable
         this.id = movie.getId();
         this.title = movie.getTitle();
         this.year = movie.getYear();
-        movie.getActors().forEach(actors -> {
-            this.actors.add(new ActorInnerDTO(actors));
-        });
+//        movie.getActors().forEach(actors -> {
+//            this.actors.add(new ActorInnerDTO(actors));
+//        });
     }
 
     public Integer getId() {
@@ -50,7 +49,7 @@ public class MovieDTO implements Serializable
         return year;
     }
 
-    public List<ActorInnerDTO> getActors() {
+    public List<String> getActors() {
         return actors;
     }
 
@@ -73,27 +72,27 @@ public class MovieDTO implements Serializable
     /**
      * A DTO for the {@link Actors} entity
      */
-    public static class ActorInnerDTO implements Serializable
-    {
-        @Size(max = 45)
-        private final String actorName;
-
-        public ActorInnerDTO(String actorName) {
-            this.actorName = actorName;
-        }
-
-        public ActorInnerDTO(Actors actors) {
-            this.actorName = actors.getActorName();
-        }
-
-        public String getActorName() {
-            return actorName;
-        }
-
-        @Override
-        public String toString() {
-            return getClass().getSimpleName() + "(" +
-                    "actorName = " + actorName + ")";
-        }
-    }
+//    public static class ActorInnerDTO implements Serializable
+//    {
+//        @Size(max = 45)
+//        private final String actorName;
+//
+//        public ActorInnerDTO(String actorName) {
+//            this.actorName = actorName;
+//        }
+//
+//        public ActorInnerDTO(String actors) {
+//            this.actorName = actors.getActors();
+//        }
+//
+//        public String getActorName() {
+//            return actorName;
+//        }
+//
+//        @Override
+//        public String toString() {
+//            return getClass().getSimpleName() + "(" +
+//                    "actorName = " + actorName + ")";
+//        }
+//    }
 }
