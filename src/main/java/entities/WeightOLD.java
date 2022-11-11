@@ -13,6 +13,14 @@ public class Weight
     @Column(name = "id_row", nullable = false)
     private Integer id;
 
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "cats_id")
+    private Cat cats;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "dogs_id")
+    private Dog dogs;
+
     @Size(max = 45)
     @NotNull
     @Column(name = "imperial", nullable = false, length = 45)
@@ -22,12 +30,6 @@ public class Weight
     @NotNull
     @Column(name = "metric", nullable = false, length = 45)
     private String metric;
-
-    @OneToOne(mappedBy = "weight")
-    private Cat cats;
-
-    @OneToOne(mappedBy = "weightIdRow")
-    private Dog dogs;
 
     public Weight() {
     }
@@ -52,22 +54,6 @@ public class Weight
         this.id = id;
     }
 
-    public String getImperial() {
-        return imperial;
-    }
-
-    public void setImperial(String imperial) {
-        this.imperial = imperial;
-    }
-
-    public String getMetric() {
-        return metric;
-    }
-
-    public void setMetric(String metric) {
-        this.metric = metric;
-    }
-
     public Cat getCats() {
         return cats;
     }
@@ -82,6 +68,22 @@ public class Weight
 
     public void setDogs(Dog dogs) {
         this.dogs = dogs;
+    }
+
+    public String getImperial() {
+        return imperial;
+    }
+
+    public void setImperial(String imperial) {
+        this.imperial = imperial;
+    }
+
+    public String getMetric() {
+        return metric;
+    }
+
+    public void setMetric(String metric) {
+        this.metric = metric;
     }
 
 }

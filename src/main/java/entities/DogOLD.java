@@ -1,8 +1,9 @@
 package entities;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "dogs")
@@ -20,10 +21,24 @@ public class Dog
     @Column(name = "life_span", length = 45)
     private String lifeSpan;
 
-    @NotNull
-    @OneToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "weight_id_row", nullable = false)
-    private Weight weightIdRow;
+    @OneToOne(mappedBy = "dogs")
+    private Weight weights;
+
+    public Dog() {
+    }
+
+    public Dog(Integer id, String name, String lifeSpan) {
+        this.id = id;
+        this.name = name;
+        this.lifeSpan = lifeSpan;
+    }
+
+    public Dog(Integer id, String name, String lifeSpan, Weight weights) {
+        this.id = id;
+        this.name = name;
+        this.lifeSpan = lifeSpan;
+        this.weights = weights;
+    }
 
     public Integer getId() {
         return id;
@@ -49,12 +64,12 @@ public class Dog
         this.lifeSpan = lifeSpan;
     }
 
-    public Weight getWeightIdRow() {
-        return weightIdRow;
+    public Weight getWeights() {
+        return weights;
     }
 
-    public void setWeightIdRow(Weight weightIdRow) {
-        this.weightIdRow = weightIdRow;
+    public void setWeights(Weight weights) {
+        this.weights = weights;
     }
 
 }
