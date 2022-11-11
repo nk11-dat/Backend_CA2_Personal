@@ -3,7 +3,6 @@ package rest;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import dtos.*;
-import entities.Dog;
 import entities.User;
 import facades.DogsFacade;
 import facades.UserFacade;
@@ -56,16 +55,16 @@ public class DogResource
         json = json.replace("[", "");
         json = json.replace("]", "");
 
-        Dog doggy = GSON.fromJson(json, Dog.class);
-//        facade.populate(doggy);
+        DogDTO doggy = GSON.fromJson(json, DogDTO.class);
+//        doggy = dogFacade.createDog(doggy); //this creates/finds a dog in the DB
         return GSON.toJson(doggy);
     }
 
-    @GET
-    @Path("add/{userName}")
+    @POST
+    @Path("addDogToUser/{userName}")
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces(MediaType.APPLICATION_JSON)
-    public String populate(@PathParam("userName")String userName, String input) {
+    public String addDog(@PathParam("userName")String userName, String input) {
         //Get Username... få det fra PathParam?
         User currentUser = userFacade.fiedUser(userName); //TODO: Hvordan kan dette gøres sikkert?
 
@@ -75,8 +74,17 @@ public class DogResource
         json = json.replace("[", "");
         json = json.replace("]", "");
 
-        Dog doggy = GSON.fromJson(json, Dog.class);
-//        facade.populate(doggy);
+        DogDTO doggy = GSON.fromJson(json, DogDTO.class);
+        doggy = dogFacade.createDog(doggy);
+        userFacade.addDogToUser(currentUser.getUserName(), doggy.getId());
+        return GSON.toJson(doggy);
+    }
+
+    @DELETE
+    @Path("removeDogFromUser/{userName}/{dogId}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String removeDog(@PathParam("userName")String userName, @PathParam("dogId")int dogId) {
+        DogDTO doggy = userFacade.removeDogFromUser(userName, dogId);
         return GSON.toJson(doggy);
     }
 

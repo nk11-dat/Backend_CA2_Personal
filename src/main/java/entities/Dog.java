@@ -3,7 +3,9 @@ package entities;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.LinkedHashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "dogs")
@@ -25,6 +27,9 @@ public class Dog
     @OneToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "weight_id_row", nullable = false)
     private Weight weight;
+
+    @ManyToMany(mappedBy = "dogs")
+    private Set<User> users = new LinkedHashSet<>();
 
     public Dog() {
     }
@@ -72,6 +77,14 @@ public class Dog
 
     public void setWeight(Weight weightIdRow) {
         this.weight = weightIdRow;
+    }
+
+    public Set<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(Set<User> users) {
+        this.users = users;
     }
 
     @Override

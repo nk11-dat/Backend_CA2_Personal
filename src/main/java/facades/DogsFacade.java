@@ -1,12 +1,9 @@
 package facades;
 
-import dtos.CatDTO;
 import dtos.DogDTO;
-import entities.Cat;
 import entities.Dog;
 import entities.Weight;
 import utils.CallableHttpUtils;
-import utils.FetchParallelJSON;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -66,25 +63,28 @@ public class DogsFacade
         }
     }
 
-    public DogDTO createMovie(DogDTO dogDTO){
+    public DogDTO createDog(DogDTO dogDTO){
         EntityManager em = getEntityManager();
 
         //TODO: Check om filmen findes i forvejen!
         Dog result;
         try {
-            TypedQuery<Dog> query = em.createQuery("select d from Dog d where d.id = :id", Dog.class);
-            query.setParameter("id", dogDTO.getId());
-//            query.setParameter("year", dogDTO.getYear());
-//            query.setParameter("actors", actors); //TODO: findActorsByMovie???
-            result = query.getSingleResult();
+//            TypedQuery<Dog> query = em.createQuery("select d from Dog d where d.id = :id", Dog.class);
+//            query.setParameter("id", dogDTO.getId());
+////            query.setParameter("year", dogDTO.getYear());
+////            query.setParameter("actors", actors); //TODO: findActorsByMovie???
+//            result = query.getSingleResult();
+            result = em.find(Dog.class, dogDTO.getId());
+            if (result == null)
+                throw new NoResultException("Couldn't find a dog in the DB with the id=" + dogDTO.getId());
             return new DogDTO(result);
         } catch (NoResultException e) {
             em.getTransaction().begin();
             //Integer id, String name, String lifeSpan, Weight weight) {
-            Dog dog = new Dog(dogDTO.getId(), dogDTO.getName(), dogDTO.getLifeSpan());
-            Weight weight = new Weight(dog, dogDTO.getWeight().getImperial(), dogDTO.getWeight().getMetric());
+            Weight weight = new Weight(dogDTO.getWeight().getImperial(), dogDTO.getWeight().getMetric());
+            Dog dog = new Dog(dogDTO.getId(), dogDTO.getName(), dogDTO.getLife_span(), weight);
             em.persist(dog);
-            em.persist(weight);
+            em.persist(dog.getWeight());
             em.getTransaction().commit();
 //            System.out.println("Weee shit don't work!...");
             return new DogDTO(dog);
@@ -92,28 +92,6 @@ public class DogsFacade
             em.close();
         }
     }
-
-//    private Actors findOrCreateActor(String actorNames) {
-//        EntityManager em = getEntityManager();
-//        Actors result;
-//        try {
-//            TypedQuery<Actors> query = em.createQuery("select a from Actors a where a.actors = :names", Actors.class);
-//            query.setParameter("names", actorNames);
-//            result = query.getSingleResult();
-//            return result;
-//
-//        } catch (NoResultException e) {
-//            Actors actors = new Actors(actorNames);
-//            em.getTransaction().begin();
-//            em.persist(actors);
-//            em.flush(); //Behandel JPA som et offenligt toilet
-//            em.getTransaction().commit();
-//            System.out.println("Stop dig selv... det virker... gider ikke mer'");
-//            return actors;
-//        } finally {
-//            em.close();
-//        }
-//    }
 
     public void populate(Dog doggy){
         EntityManager em = getEntityManager();

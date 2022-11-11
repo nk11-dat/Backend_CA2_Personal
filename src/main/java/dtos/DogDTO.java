@@ -19,28 +19,28 @@ public class DogDTO implements Serializable
     @Size(max = 90)
     private final String name;
     @Size(max = 45)
-    private final String lifeSpan;
+    private final String life_span;
     @NotNull
     private final WeightInnerDTO weight;
 
-    public DogDTO(Integer id, String name, String lifeSpan, WeightInnerDTO weight) {
+    public DogDTO(Integer id, String name, String life_span, WeightInnerDTO weight) {
         this.id = id;
         this.name = name;
-        this.lifeSpan = lifeSpan;
+        this.life_span = life_span;
         this.weight = weight;
     }
 
-    public DogDTO(Integer id, String name, String lifeSpan) {
+    public DogDTO(Integer id, String name, String life_span) {
         this.id = id;
         this.name = name;
-        this.lifeSpan = lifeSpan;
+        this.life_span = life_span;
         this.weight = new WeightInnerDTO(0, "-1", "-1");
     }
 
     public DogDTO(Dog d) {
         this.id = d.getId();
         this.name = d.getName();
-        this.lifeSpan = d.getLife_span();
+        this.life_span = d.getLife_span();
         this.weight = new DogDTO.WeightInnerDTO(d.getWeight());
     }
 
@@ -52,8 +52,8 @@ public class DogDTO implements Serializable
         return name;
     }
 
-    public String getLifeSpan() {
-        return lifeSpan;
+    public String getLife_span() {
+        return life_span;
     }
 
     public WeightInnerDTO getWeight() {
@@ -67,13 +67,13 @@ public class DogDTO implements Serializable
         DogDTO entity = (DogDTO) o;
         return Objects.equals(this.id, entity.id) &&
                 Objects.equals(this.name, entity.name) &&
-                Objects.equals(this.lifeSpan, entity.lifeSpan) &&
+                Objects.equals(this.life_span, entity.life_span) &&
                 Objects.equals(this.weight, entity.weight);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, lifeSpan, weight);
+        return Objects.hash(id, name, life_span, weight);
     }
 
     @Override
@@ -81,7 +81,7 @@ public class DogDTO implements Serializable
         return getClass().getSimpleName() + "(" +
                 "id = " + id + ", " +
                 "name = " + name + ", " +
-                "lifeSpan = " + lifeSpan + ", " +
+                "lifeSpan = " + life_span + ", " +
                 "weight = " + weight + ")";
     }
 

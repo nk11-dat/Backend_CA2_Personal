@@ -29,14 +29,3 @@ Content-Type: application/json
 ### access as an user
 GET http://localhost:8080/ca2_Personal/api/info/user
 x-access-token:eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyIiwicm9sZXMiOiJ1c2VyIiwiZXhwIjoxNjY3ODI2NDc3LCJpYXQiOjE2Njc4MjQ2NzcsImlzc3VlciI6InNlbWVzdGVyc3RhcnRjb2RlLWRhdDMiLCJ1c2VybmFtZSI6InVzZXIifQ.kzXSvjgwbqoqLo6487iMiidWGrTHT6Y2UgrYfUusxIA
-
-
-### cat breed
-GET https://api.thecatapi.com/v1/breeds/search?q=sibe
-Headers:
-  x-api-key: live_76W9Fr1uJzYxQ9gg8ha5fAEchcMAyz0zc1YoYXn5pN3VcbTvlzU305qMeW44ArMP
-
-### dog breed
-GET https://api.thedogapi.com/v1/breeds/search?q=Airedale Terrier
-Headers:
-  x-api-key: live_YnK8hERadS4Aj9jL4US6eso0uFN3hTAvB0hTA1n3hmXlcHZGkp0LuAPo5KLxA9RN
