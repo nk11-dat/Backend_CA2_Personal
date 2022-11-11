@@ -1,0 +1,5 @@
+### cat breed fetch from API
+GET https://api.thecatapi.com/v1/breeds/search?q=sibe
+Headers:
+  x-api-key: live_76W9Fr1uJzYxQ9gg8ha5fAEchcMAyz0zc1YoYXn5pN3VcbTvlzU305qMeW44ArMP
+

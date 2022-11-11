@@ -1,12 +1,8 @@
 package entities;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "movie")
@@ -16,82 +12,70 @@ public class Movie
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Integer id;
-
-    @Size(max = 255)
-    @NotNull
-    @Column(name = "Title", nullable = false)
+    private int year;
     private String title;
-
-    @NotNull
-    @Column(name = "Year", nullable = false)
-    private Integer year;
-
-    @OneToMany(mappedBy = "movie")
-    private List<UserRating> userRatings = new ArrayList<>();
-
     @ElementCollection
-    private List<String> actors = new ArrayList<>();
+    private List<String> actors;
 
-    public Movie() {
+    public Movie()
+    {
     }
 
-    public Movie(String title, Integer year, List<String> actors) {
-        this.title = title;
+    public Movie(int year, String title, List<String> actors)
+    {
         this.year = year;
+        this.title = title;
         this.actors = actors;
     }
 
-    public Movie(String title, Integer year, String actors) {
-        this.title = title;
-        this.year = year;
-        this.actors = Arrays.stream(actors.split(", ")).toList();
-    }
-
-    public Movie(String title, Integer year, List<UserRating> userRatings, List<String> actors) {
-        this.title = title;
-        this.year = year;
-        this.userRatings = userRatings;
-        this.actors = actors;
-    }
-
-    public Integer getId() {
+    public Integer getId()
+    {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Integer id)
+    {
         this.id = id;
     }
 
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public Integer getYear() {
+    public int getYear()
+    {
         return year;
     }
 
-    public void setYear(Integer year) {
-        this.year = year;
+    public String getTitle()
+    {
+        return title;
     }
 
-    public List<UserRating> getUserRatings() {
-        return userRatings;
-    }
-
-    public void setUserRatings(List<UserRating> userRatings) {
-        this.userRatings = userRatings;
-    }
-
-    public List<String> getActors() {
+    public List<String> getActors()
+    {
         return actors;
     }
 
-    public void setActors(List<String> actors) {
-        this.actors = actors;
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o) return true;
+        if (!(o instanceof Movie)) return false;
+        Movie movie = (Movie) o;
+        return Objects.equals(getId(), movie.getId());
     }
 
+    @Override
+    public int hashCode()
+    {
+        return Objects.hash(getId());
+    }
+
+    @Override
+    public String toString()
+    {
+        return "Movie{" +
+                "id=" + id +
+                ", year=" + year +
+                ", title='" + title + '\'' +
+                ", actors=" + actors +
+                '}';
+    }
 }

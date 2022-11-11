@@ -2,63 +2,90 @@ package dtos;
 
 import entities.Movie;
 
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
- * A DTO for the {@link Movie} entity
+ * A DTO for the {@link entities.Movie} entity
  */
 public class MovieDTO implements Serializable
 {
     private final Integer id;
-    @Size(max = 255)
-    @NotNull
+    private final int year;
     private final String title;
-    @NotNull
-    private final Integer year;
-    private final List<String> actors = new ArrayList<>();
+    private final List<String> actors;
 
-    public MovieDTO(Integer id, String title, Integer year) { //List<ActorInnerDTO> actors
+    public MovieDTO(Movie m)
+    {
+        this.id = m.getId();
+        this.year = m.getYear();
+        this.title = m.getTitle();
+        this.actors = m.getActors();
+    }
+
+    public MovieDTO(Integer id, int year, String title, List<String> actors)
+    {
         this.id = id;
-        this.title = title;
         this.year = year;
-//        this.actors = actors;
+        this.title = title;
+        this.actors = actors;
     }
 
-    public MovieDTO(Movie movie) {
-        this.id = movie.getId();
-        this.title = movie.getTitle();
-        this.year = movie.getYear();
-//        movie.getActors().forEach(actors -> {
-//            this.actors.add(new ActorInnerDTO(actors));
-//        });
+    public MovieDTO(int year, String title, List<String> actors)
+    {
+        this.id = 0;
+        this.year = year;
+        this.title = title;
+        this.actors = actors;
     }
 
-    public Integer getId() {
+    public Integer getId()
+    {
         return id;
     }
 
-    public String getTitle() {
-        return title;
-    }
-
-    public Integer getYear() {
+    public int getYear()
+    {
         return year;
     }
 
-    public List<String> getActors() {
+    public String getTitle()
+    {
+        return title;
+    }
+
+    public List<String> getActors()
+    {
         return actors;
     }
 
     @Override
-    public String toString() {
+    public boolean equals(Object o)
+    {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        MovieDTO entity = (MovieDTO) o;
+        return Objects.equals(this.id, entity.id) &&
+                Objects.equals(this.year, entity.year) &&
+                Objects.equals(this.title, entity.title) &&
+                Objects.equals(this.actors, entity.actors);
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return Objects.hash(id, year, title, actors);
+    }
+
+    @Override
+    public String toString()
+    {
         return getClass().getSimpleName() + "(" +
                 "id = " + id + ", " +
-                "title = " + title + ", " +
                 "year = " + year + ", " +
+                "title = " + title + ", " +
                 "actors = " + actors + ")";
     }
 
@@ -68,31 +95,4 @@ public class MovieDTO implements Serializable
         movies.forEach(m -> movieDTOList.add(new MovieDTO(m)));
         return movieDTOList;
     }
-
-    /**
-     * A DTO for the {@link Actors} entity
-     */
-//    public static class ActorInnerDTO implements Serializable
-//    {
-//        @Size(max = 45)
-//        private final String actorName;
-//
-//        public ActorInnerDTO(String actorName) {
-//            this.actorName = actorName;
-//        }
-//
-//        public ActorInnerDTO(String actors) {
-//            this.actorName = actors.getActors();
-//        }
-//
-//        public String getActorName() {
-//            return actorName;
-//        }
-//
-//        @Override
-//        public String toString() {
-//            return getClass().getSimpleName() + "(" +
-//                    "actorName = " + actorName + ")";
-//        }
-//    }
 }
