@@ -5,7 +5,7 @@ import com.google.gson.GsonBuilder;
 import dtos.ChuckDTO;
 import dtos.CombinedJokeDTO;
 import dtos.DadDTO;
-import facades.Facade;
+import facades.MultiThreadFacade;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -16,7 +16,7 @@ import java.util.concurrent.ExecutionException;
 @Path("/joke")
 public class JokeResource
 {
-    Facade facade = new Facade();
+    MultiThreadFacade jf = new MultiThreadFacade();
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 
     @GET
@@ -33,7 +33,7 @@ public class JokeResource
         List<String> URL = new ArrayList<>();
         URL.add("https://icanhazdadjoke.com/");
         URL.add("https://api.chucknorris.io/jokes/random");
-        List<String> jokeJSON = facade.parallelRun(URL);
+        List<String> jokeJSON = jf.parallelRun(URL);
         DadDTO dad = GSON.fromJson(jokeJSON.get(0), DadDTO.class);
         ChuckDTO chuck = GSON.fromJson(jokeJSON.get(1), ChuckDTO.class);
         CombinedJokeDTO combi = new CombinedJokeDTO(dad,chuck);
