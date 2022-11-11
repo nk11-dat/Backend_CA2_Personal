@@ -4,10 +4,13 @@ import dtos.CatDTO;
 import dtos.DogDTO;
 import entities.Cat;
 import entities.Dog;
+import entities.Weight;
 import utils.CallableHttpUtils;
+import utils.FetchParallelJSON;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 import java.util.ArrayList;
 import java.util.List;
@@ -63,34 +66,32 @@ public class DogsFacade
         }
     }
 
-//    public MovieDTO createMovie(MovieDTO movieDTO){
-//        EntityManager em = getEntityManager();
-//        List<Actors> actors = new ArrayList<>();
-//
-//        for (MovieDTO.ActorInnerDTO actor : movieDTO.getActors()) {
-//            actors.add(findOrCreateActor(actor.getActorName()));
-//        }
-//        //TODO: Check om filmen findes i forvejen!
-//        Movie result;
-//        try {
-//            TypedQuery<Movie> query = em.createQuery("select m from Movie m where m.Title = :title and m.Year = :year and m.actors = :actors", Movie.class);
-//            query.setParameter("title", movieDTO.getTitle());
-//            query.setParameter("year", movieDTO.getYear());
+    public DogDTO createMovie(DogDTO dogDTO){
+        EntityManager em = getEntityManager();
+
+        //TODO: Check om filmen findes i forvejen!
+        Dog result;
+        try {
+            TypedQuery<Dog> query = em.createQuery("select d from Dog d where d.id = :id", Dog.class);
+            query.setParameter("id", dogDTO.getId());
+//            query.setParameter("year", dogDTO.getYear());
 //            query.setParameter("actors", actors); //TODO: findActorsByMovie???
-//            result = query.getSingleResult();
-//            return new MovieDTO(result);
-//        } catch (NoResultException e) {
-//            em.getTransaction().begin();
-////        em.persist(new Movie(1977, "Star Wars - A new hope", Arrays.asList(new Actors[]{new Actors("Mark Hamill"), "Harrison Ford", "Carrie Fisher"})));
-//            Movie movie = new Movie(movieDTO.getTitle(), movieDTO.getYear(), actors);
-//            em.persist(movie);
-//            em.getTransaction().commit();
-////            System.out.println("Weee shit don't work!...");
-//            return new MovieDTO(movie);
-//        } finally {
-//            em.close();
-//        }
-//    }
+            result = query.getSingleResult();
+            return new DogDTO(result);
+        } catch (NoResultException e) {
+            em.getTransaction().begin();
+            //Integer id, String name, String lifeSpan, Weight weight) {
+            Dog dog = new Dog(dogDTO.getId(), dogDTO.getName(), dogDTO.getLifeSpan());
+            Weight weight = new Weight(dog, dogDTO.getWeight().getImperial(), dogDTO.getWeight().getMetric());
+            em.persist(dog);
+            em.persist(weight);
+            em.getTransaction().commit();
+//            System.out.println("Weee shit don't work!...");
+            return new DogDTO(dog);
+        } finally {
+            em.close();
+        }
+    }
 
 //    private Actors findOrCreateActor(String actorNames) {
 //        EntityManager em = getEntityManager();
@@ -114,12 +115,12 @@ public class DogsFacade
 //        }
 //    }
 
-    public void populate(){
+    public void populate(Dog doggy){
         EntityManager em = getEntityManager();
         em.getTransaction().begin();
-//        em.persist(new Movie("Star Wars - A new hope", 1977, "Mark Hamill, Harrison Ford, Carrie Fisher, Billy Dee Williams"));
-//        em.persist(new Movie(1980, "Star Wars - Empire strikes back", Arrays.asList(new String[]{"Mark Hamill", "Harrison Ford", "Carrie Fisher", "Billy Dee Williams"})));
-//        em.persist(new Movie(1983, "Star Wars - Return of the jedi", Arrays.asList(new String[]{"Mark Hamill", "Harrison Ford", "Carrie Fisher", "Anthony Daniels"})));
+        em.persist(doggy);
+        em.persist(doggy.getWeight());
+        //TODO: hvad med vægten...?
         em.getTransaction().commit();
         em.close();
     }

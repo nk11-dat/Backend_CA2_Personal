@@ -19,7 +19,7 @@ public class Dog
 
     @Size(max = 45)
     @Column(name = "life_span", length = 45)
-    private String lifeSpan;
+    private String life_span;
 
     @NotNull
     @OneToOne(fetch = FetchType.LAZY, optional = false)
@@ -29,16 +29,16 @@ public class Dog
     public Dog() {
     }
 
-    public Dog(Integer id, String name, String lifeSpan) {
+    public Dog(Integer id, String name, String life_span) {
         this.id = id;
         this.name = name;
-        this.lifeSpan = lifeSpan;
+        this.life_span = life_span;
     }
 
-    public Dog(Integer id, String name, String lifeSpan, Weight weight) {
+    public Dog(Integer id, String name, String life_span, Weight weight) {
         this.id = id;
         this.name = name;
-        this.lifeSpan = lifeSpan;
+        this.life_span = life_span;
         this.weight = weight;
     }
 
@@ -58,12 +58,12 @@ public class Dog
         this.name = name;
     }
 
-    public String getLifeSpan() {
-        return lifeSpan;
+    public String getLife_span() {
+        return life_span;
     }
 
-    public void setLifeSpan(String lifeSpan) {
-        this.lifeSpan = lifeSpan;
+    public void setLife_span(String life_span) {
+        this.life_span = life_span;
     }
 
     public Weight getWeight() {
@@ -92,7 +92,7 @@ public class Dog
         return "Dog{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", lifeSpan='" + lifeSpan + '\'' +
+                ", lifeSpan='" + life_span + '\'' +
                 ", weight=" + weight +
                 '}';
     }

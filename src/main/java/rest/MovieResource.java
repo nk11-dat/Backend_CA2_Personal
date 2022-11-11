@@ -3,8 +3,6 @@ package rest;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import dtos.MovieDTO;
-import facades.Facade;
-import facades.FacadeExample;
 import facades.MovieFacade;
 import utils.EMF_Creator;
 
@@ -45,12 +43,21 @@ public class MovieResource
         return "{\"count\":"+count+"}";
     }
 
-    @GET
-    @Path("populate")
-    @Produces(MediaType.APPLICATION_JSON)
-    public String populare(){
-        facade.populate();
-        return "{\"Message\": \"DB populated with test data\"}";
-    }
+//    @GET
+//    @Path("")
+//    @Produces(MediaType.APPLICATION_JSON)
+//    public String populate(){
+//        facade.populate();
+//        return "{\"Message\": \"DB populated with test data\"}";
+//    }
+//
+//    @POST
+//    @Path("populate")
+//    @Consumes(MediaType.APPLICATION_JSON)
+//    @Produces(MediaType.APPLICATION_JSON)
+//    public String populate(){
+//        facade.populate();
+//        return "{\"Message\": \"DB populated with test data\"}";
+//    }
 
 }

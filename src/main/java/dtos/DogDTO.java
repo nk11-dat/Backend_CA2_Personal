@@ -1,6 +1,5 @@
 package dtos;
 
-import entities.Cat;
 import entities.Dog;
 import entities.Weight;
 
@@ -31,10 +30,17 @@ public class DogDTO implements Serializable
         this.weight = weight;
     }
 
+    public DogDTO(Integer id, String name, String lifeSpan) {
+        this.id = id;
+        this.name = name;
+        this.lifeSpan = lifeSpan;
+        this.weight = new WeightInnerDTO(0, "-1", "-1");
+    }
+
     public DogDTO(Dog d) {
         this.id = d.getId();
         this.name = d.getName();
-        this.lifeSpan = d.getLifeSpan();
+        this.lifeSpan = d.getLife_span();
         this.weight = new DogDTO.WeightInnerDTO(d.getWeight());
     }
 

@@ -56,11 +56,11 @@
 //        this.name = name;
 //    }
 //
-//    public String getLifeSpan() {
+//    public String getLife_span() {
 //        return lifeSpan;
 //    }
 //
-//    public void setLifeSpan(String lifeSpan) {
+//    public void setLife_span(String lifeSpan) {
 //        this.lifeSpan = lifeSpan;
 //    }
 //

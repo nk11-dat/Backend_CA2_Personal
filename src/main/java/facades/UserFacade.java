@@ -43,4 +43,18 @@ public class UserFacade {
         return user;
     }
 
+    public User fiedUser(String username) {
+        EntityManager em = emf.createEntityManager();
+        User user;
+        try {
+            user = em.find(User.class, username);
+            if (user == null) {
+                throw new NullPointerException("No user found with the username: " + username);
+            }
+        } finally {
+            em.close();
+        }
+        return user;
+    }
+
 }

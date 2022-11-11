@@ -54,11 +54,11 @@
 //        this.id = id;
 //    }
 //
-//    public Cat getCats() {
+//    public Cat getCat() {
 //        return cats;
 //    }
 //
-//    public void setCats(Cat cats) {
+//    public void setCat(Cat cats) {
 //        this.cats = cats;
 //    }
 //

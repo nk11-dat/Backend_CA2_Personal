@@ -24,22 +24,27 @@ public class Weight
     private String metric;
 
     @OneToOne(mappedBy = "weight")
-    private Cat cats;
+    private Cat cat;
 
     @OneToOne(mappedBy = "weight")
-    private Dog dogs;
+    private Dog dog;
 
     public Weight() {
     }
 
-    public Weight(Dog dogs, String imperial, String metric) {
-        this.dogs = dogs;
+    public Weight(String imperial, String metric) {
         this.imperial = imperial;
         this.metric = metric;
     }
 
-    public Weight(Cat cats, String imperial, String metric) {
-        this.cats = cats;
+    public Weight(Dog dog, String imperial, String metric) {
+        this.dog = dog;
+        this.imperial = imperial;
+        this.metric = metric;
+    }
+
+    public Weight(Cat cat, String imperial, String metric) {
+        this.cat = cat;
         this.imperial = imperial;
         this.metric = metric;
     }
@@ -68,20 +73,20 @@ public class Weight
         this.metric = metric;
     }
 
-    public Cat getCats() {
-        return cats;
+    public Cat getCat() {
+        return cat;
     }
 
-    public void setCats(Cat cats) {
-        this.cats = cats;
+    public void setCat(Cat cat) {
+        this.cat = cat;
     }
 
-    public Dog getDogs() {
-        return dogs;
+    public Dog getDog() {
+        return dog;
     }
 
-    public void setDogs(Dog dogs) {
-        this.dogs = dogs;
+    public void setDog(Dog dog) {
+        this.dog = dog;
     }
 
 }
