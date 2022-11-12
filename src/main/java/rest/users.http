@@ -29,3 +29,5 @@ Content-Type: application/json
 ### access as an user
 GET http://localhost:8080/ca2_Personal/api/info/user
 x-access-token:eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyIiwicm9sZXMiOiJ1c2VyIiwiZXhwIjoxNjY4MjA3ODI5LCJpYXQiOjE2NjgyMDYwMjksImlzc3VlciI6InNlbWVzdGVyc3RhcnRjb2RlLWRhdDMiLCJ1c2VybmFtZSI6InVzZXIifQ.czKNIAscq08dfTk_llNxlrz89aYh8SLPQWCe1kQZUlI
+
+### access as an admin
