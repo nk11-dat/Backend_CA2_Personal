@@ -60,6 +60,36 @@ public class DogResource
         return GSON.toJson(doggy);
     }
 
+    @GET
+    @Path("breeds/{breed}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String getByBreeds(@PathParam("breed") String breed) throws ExecutionException, InterruptedException {
+
+        FetchParallelJSON fpJSON = new FetchParallelJSON();
+        List<String> urls = new ArrayList<>();
+        urls.add("https://api.thedogapi.com/v1/breeds/search?q=" + breed);
+        List<String> jsonArray = fpJSON.parallelRun(urls);
+        String jsonString = "";
+        for (String jsonElement : jsonArray) {
+            jsonString += jsonElement;
+        }
+        System.out.println(jsonString);
+//        json = json.replace("[", "");
+//        json = json.replace("]", "");
+
+        DogDTO[] doggies = GSON.fromJson(jsonString, DogDTO[].class);
+//        doggy = dogFacade.createDog(doggy); //this creates/finds a dog in the DB
+        return GSON.toJson(doggies);
+    }
+
+    @GET
+    @Path("{username}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String getDogsByUser(@PathParam("username") String username) {
+        List<DogDTO> doggies = dogFacade.getAllByUser(username); //this creates/finds a dog in the DB
+        return GSON.toJson(doggies);
+    }
+
     @POST
     @Path("addDogToUser/{userName}")
     @Consumes({MediaType.APPLICATION_JSON})

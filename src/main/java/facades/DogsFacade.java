@@ -50,6 +50,21 @@ public class DogsFacade
         }
     }
 
+    public List<DogDTO> getAllByUser(String username){
+        EntityManager em = getEntityManager();
+        try{
+            //TypedQuery<Person> query = em.createQuery("SELECT p FROM Person p JOIN p.phones ph WHERE ph.phoneNumber = :phoneNumber", Person.class);
+            //TypedQuery<Person> query = em.createQuery("SELECT p FROM Person p join p.hobbies h where h.id = :id", Person.class);
+            TypedQuery<Dog> query = em.createQuery("select d from Dog d JOIN d.users u WHERE u.userName = :username", Dog.class);
+            query.setParameter("username", username);
+            List<Dog> dogs = query.getResultList();
+            return DogDTO.getDTOs(dogs);
+        }
+        finally {
+            em.close();
+        }
+    }
+
     public long countAll(){
         EntityManager em = getEntityManager();
         try{

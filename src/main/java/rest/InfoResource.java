@@ -1,6 +1,5 @@
 package rest;
 
-import com.google.gson.Gson;
 import entities.User;
 import java.util.List;
 import javax.annotation.security.RolesAllowed;
@@ -20,7 +19,8 @@ import utils.EMF_Creator;
  * @author lam@cphbusiness.dk
  */
 @Path("info")
-public class DemoResource {
+public class InfoResource
+{
     
     private static final EntityManagerFactory EMF = EMF_Creator.createEntityManagerFactory();
     @Context

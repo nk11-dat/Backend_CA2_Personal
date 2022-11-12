@@ -1,5 +1,5 @@
 ### dog breed fetch from API
-GET https://api.thedogapi.com/v1/breeds/search?q=Airedale Terrier
+GET https://api.thedogapi.com/v1/breeds/search?q=Akita
 Headers:
   x-api-key: live_YnK8hERadS4Aj9jL4US6eso0uFN3hTAvB0hTA1n3hmXlcHZGkp0LuAPo5KLxA9RN
 
@@ -8,12 +8,12 @@ POST http://localhost:8080/ca2_Personal/api/dog/addDogToUser/user
 Content-Type: application/json
 
 {
-  "id": 4,
-  "name": "Airedale Terrier",
-  "life_span": "10 - 13 years",
+  "id": 6,
+  "name": "Akita",
+  "life_span": "10 - 14 years",
   "weight": {
-    "imperial": "40 - 65",
-    "metric": "18 - 29"
+    "imperial": "65 - 115",
+    "metric": "29 - 52"
   }
 }
 
