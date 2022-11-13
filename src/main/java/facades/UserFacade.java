@@ -2,6 +2,7 @@ package facades;
 
 import dtos.DogDTO;
 import entities.Dog;
+import entities.Role;
 import entities.User;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -33,6 +34,54 @@ public class UserFacade {
         return instance;
     }
 
+    public User createUser(String username, String password, String role) throws AuthenticationException {
+        EntityManager em = emf.createEntityManager();
+        User user = new User(username, password);
+
+        em.getTransaction().begin();
+        Role userRole = new Role(role);
+        user.addRole(userRole);
+//        em.persist(userRole);
+        em.persist(user);
+        em.getTransaction().commit();
+        System.out.println("PW: " + user.getUserPass());
+        System.out.println("Testing user with OK password: " + user.verifyPassword(password));
+        System.out.println("Testing user with wrong password: " + user.verifyPassword(password+"1"));
+        System.out.println("Created TEST Users");
+        try {
+            user = em.find(User.class, username);
+            if (user == null || !user.verifyPassword(password)) {
+                throw new AuthenticationException("Invalid user name or password");
+            }
+        } finally {
+            em.close();
+        }
+        return user;
+    }
+    public User createUser(User user) throws AuthenticationException {
+        EntityManager em = emf.createEntityManager();
+
+//        em.getTransaction().begin();
+//        Role userRole = new Role(role);
+//        user.addRole(userRole);
+//        em.persist(userRole);
+//        em.persist(user);
+//        em.getTransaction().commit();
+//        System.out.println("PW: " + user.getUserPass());
+//        System.out.println("Testing user with OK password: " + user.verifyPassword(password));
+//        System.out.println("Testing user with wrong password: " + user.verifyPassword(password+"1"));
+//        System.out.println("Created TEST Users");
+//        try {
+//            user = em.find(User.class, username);
+//            if (user == null || !user.verifyPassword(password)) {
+//                throw new AuthenticationException("Invalid user name or password");
+//            }
+//        } finally {
+//            em.close();
+//        }
+        return user;
+    }
+
     public User getVeryfiedUser(String username, String password) throws AuthenticationException {
         EntityManager em = emf.createEntityManager();
         User user;
@@ -60,26 +109,6 @@ public class UserFacade {
         }
         return user;
     }
-
-    //    public Person addHobby(Integer personId, Integer hobbyId)
-//    {
-//        EntityManager em = getEntityManager();
-//        try {
-//            em.getTransaction().begin();
-//            Person person = em.find(Person.class, personId);
-//            if (person == null)
-//                throw new WebApplicationException("Person doesn't exist with id= " + personId);
-//            Hobby hobby = em.find(Hobby.class, hobbyId);
-//            if (hobby == null)
-//                throw new WebApplicationException("Hobby doesn't exist with id= this is hardcoded....!¿?" + personId);
-//            // new Hobby(hobbyDTO.getName(),hobbyDTO.getWikiLink(), hobbyDTO.getCategory(), hobbyDTO.getType());
-//            person.addHobby(hobby);
-//            em.getTransaction().commit();
-//            return person;
-//        } finally {
-//            em.close();
-//        }
-//    }
 
     public User addDogToUser(String userName, Integer dogId)
     {
