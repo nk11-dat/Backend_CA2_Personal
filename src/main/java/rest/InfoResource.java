@@ -80,7 +80,7 @@ public class InfoResource
     @Path("create/user")
     @Produces(MediaType.APPLICATION_JSON)
 //    public String addDog(@PathParam("userName")String userName, String input) {
-    public String createUser(String input)
+    public String createUser()
     {
 
         try {
