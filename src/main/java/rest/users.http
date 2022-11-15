@@ -37,3 +37,9 @@ x-access-token:eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyIiwicm9sZXMiOiJ1c2VyIiwiZXhw
 
 ###createuser
 POST http://localhost:8080/ca2_Personal/api/info/create/user
+Content-Type: application/json
+
+{
+   "userName": "userman",
+   "userPass": "kode123"
+}

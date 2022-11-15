@@ -61,24 +61,14 @@ public class UserFacade {
     public User createUser(User user) throws AuthenticationException {
         EntityManager em = emf.createEntityManager();
 
-//        em.getTransaction().begin();
-//        Role userRole = new Role(role);
-//        user.addRole(userRole);
+        em.getTransaction().begin();
+        Role userRole = new Role("user");
+        user.addRole(userRole);
 //        em.persist(userRole);
-//        em.persist(user);
-//        em.getTransaction().commit();
-//        System.out.println("PW: " + user.getUserPass());
-//        System.out.println("Testing user with OK password: " + user.verifyPassword(password));
-//        System.out.println("Testing user with wrong password: " + user.verifyPassword(password+"1"));
-//        System.out.println("Created TEST Users");
-//        try {
-//            user = em.find(User.class, username);
-//            if (user == null || !user.verifyPassword(password)) {
-//                throw new AuthenticationException("Invalid user name or password");
-//            }
-//        } finally {
-//            em.close();
-//        }
+        em.persist(user);
+        em.getTransaction().commit();
+        System.out.println("PW: " + user.getUserPass());
+        em.close();
         return user;
     }
 

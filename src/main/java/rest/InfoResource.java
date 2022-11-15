@@ -78,29 +78,15 @@ public class InfoResource
 
     @POST
     @Path("create/user")
+    @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-//    public String addDog(@PathParam("userName")String userName, String input) {
-    public String createUser()
-    {
-
+    public String createUser(String input) {
+        User user = GSON.fromJson(input, User.class);
         try {
-            userFacade.createUser("dogOwner420", "dogs", "user");
+            userFacade.createUser(user);
         } catch (AuthenticationException e) {
             throw new RuntimeException(e);
         }
-        //Get Username... få det fra PathParam?
-
-//        //create dog and weight
-//        String json = input;
-//        System.out.println(json);
-//        json = json.replace("[", "");
-//        json = json.replace("]", "");
-//        User createdUser = userFacade.createUser(userName); //TODO: Hvordan kan dette gøres sikkert?
-//
-//        DogDTO doggy = GSON.fromJson(json, DogDTO.class);
-//        doggy = dogFacade.createDog(doggy);
-//        userFacade.addDogToUser(currentUser.getUserName(), doggy.getId());
-//        return GSON.toJson(doggy);
-        return "";
+        return GSON.toJson(user);
     }
 }
